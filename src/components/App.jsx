@@ -1,4 +1,3 @@
-import { render } from '@testing-library/react';
 import React, { Component } from 'react';
 import { ContactForm } from './ContactForm/ConstactForm';
 import { ContactList } from './ContactList/ContactList';
