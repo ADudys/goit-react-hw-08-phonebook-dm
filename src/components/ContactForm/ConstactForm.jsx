@@ -18,7 +18,7 @@ export class ContactForm extends Component {
   render() {
     return (
       <section>
-        <h2 className={css.form__title}>Phonebook</h2>
+        <h1 className={css.form__title}>Phonebook</h1>
         <form className={css.form} onSubmit={this.handleSubmit}>
           <label className={css.form__label}>Name</label>
           <input
