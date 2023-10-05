@@ -1,0 +1,14 @@
+.content__container {
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 400px;
+}
+.content {
+  display: flex;
+}
+body {
+  background-color: lightgray;
+}
