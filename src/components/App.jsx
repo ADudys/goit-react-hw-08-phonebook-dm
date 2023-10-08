@@ -8,7 +8,7 @@ const parsedContacts = JSON.parse(localStorage.getItem('contacts'));
 
 const App = () => {
   const [filter, setFilter] = useState('');
-  const [contacts, setContacts] = useState(() => parsedContacts ?? [initialContacts]);
+  const [contacts, setContacts] = useState(() => parsedContacts ?? []);
 
   useEffect(() => {
     localStorage.setItem('contacts', JSON.stringify(contacts));
