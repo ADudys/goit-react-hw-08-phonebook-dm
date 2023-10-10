@@ -3,6 +3,7 @@ import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 import css from './App.module.css';
 import ContactForm from './ContactForm/ConstactForm';
+import { nanoid } from 'nanoid';
 
 const parsedContacts = JSON.parse(localStorage.getItem('contacts'));
 
@@ -12,29 +13,31 @@ const App = () => {
 
   useEffect(() => {
     localStorage.setItem('contacts', JSON.stringify(contacts));
+    console.log('contacts', contacts);
+
+    if (contacts.length === 0) {
+      localStorage.removeItem('contacts');
+    }
   }, [contacts]);
 
-  function addContact(newContact) {
+  function addContact({ name, number }) {
+    const newContact = { id: nanoid(), name: name, number: number };
     const loweredName = newContact.name.toLowerCase().trim();
 
     if (
-      this.state.contacts.some(
+      contacts.some(
         contact => contact.name.toLowerCase().trim() === loweredName
       )
     ) {
       return alert(`${newContact.name} is already in Your contacts!`);
     }
-
-    if (
-      this.state.contacts.find(contact => contact.number === newContact.number)
-    ) {
+    if (contacts.find(contact => contact.number === newContact.number)) {
       return alert(`${newContact.number} is already in Your contacts!`);
     } else {
-      this.setState(({ contacts }) => ({
-        contacts: [...contacts, newContact],
-      }));
+      setContacts(prevState => [...prevState, newContact]);
     }
   }
+
   function deleteContact(id) {
     setContacts(contacts.filter(contact => contact.id !== id));
   }
@@ -49,8 +52,8 @@ const App = () => {
   return (
     <section className={css.content}>
       <div className={css.content__container}>
-        <ContactForm addContact={addContact} />
-        <ContactList contacts={filterContacts} deleteContact={deleteContact}>
+        <ContactForm onSubmit={addContact} />
+        <ContactList contacts={filterContacts} onClick={deleteContact}>
           <Filter onChange={handleChangeFilter} />
         </ContactList>
       </div>
