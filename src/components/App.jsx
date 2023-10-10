@@ -13,7 +13,6 @@ const App = () => {
 
   useEffect(() => {
     localStorage.setItem('contacts', JSON.stringify(contacts));
-    console.log('contacts', contacts);
 
     if (contacts.length === 0) {
       localStorage.removeItem('contacts');
