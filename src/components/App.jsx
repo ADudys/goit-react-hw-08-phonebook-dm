@@ -1,37 +1,18 @@
-import React, { Component } from 'react';
-import { ContactForm } from './ContactForm/ConstactForm';
+import React, { useEffect, useState } from 'react';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 import css from './App.module.css';
+import ContactForm from './ContactForm/ConstactForm';
 
-export class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      contacts: [
-        { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-        { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-        { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-        { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-      ],
-      filter: '',
-    };
-  }
-  componentDidMount() {
-    localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-    
+const parsedContacts = JSON.parse(localStorage.getItem('contacts'));
 
-  }
+const App = () => {
+  const [filter, setFilter] = useState('');
+  const [contacts, setContacts] = useState(() => parsedContacts ?? []);
 
-  componentDidUpdate(prevProps, prevState) {
-    const nextContacts = this.state.contacts;
-    const prevContacts = prevState.contacts;
-    if (nextContacts !== prevContacts) {
-      localStorage.setItem('contacts', JSON.stringify(nextContacts));
-    }
-  }
+  useEffect(() => setContacts(parsedContacts));
 
-  addContact = newContact => {
+  function addContact(newContact) {
     const loweredName = newContact.name.toLowerCase().trim();
 
     if (
@@ -41,7 +22,9 @@ export class App extends Component {
     ) {
       return alert(`${newContact.name} is already in Your contacts!`);
     }
-
+    if (contacts.length === 0) {
+      localStorage.removeItem('contacts');
+    }
     if (
       this.state.contacts.find(contact => contact.number === newContact.number)
     ) {
@@ -51,6 +34,42 @@ export class App extends Component {
         contacts: [...contacts, newContact],
       }));
     }
+  }
+  function deleteContact(id) {
+    setContacts(contacts.filter(contact => contact.id !== id));
+  }
+
+  function handleChangeFilter(e) {
+    setFilter(e.currentTarget.value);
+  }
+  const filterContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(filter)
+  );
+
+  return (
+    <section className={css.content}>
+      <div className={css.content__container}>
+        <ContactForm addContact={addContact} />
+        <ContactList contacts={filterContacts} deleteContact={deleteContact}>
+          <Filter onChange={handleChangeFilter} />
+        </ContactList>
+      </div>
+    </section>
+  );
+};
+export default App;
+
+/*
+      contacts: [
+        { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+        { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+        { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+        { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+      ],
+      filter: '',
+    };
+  }
+  
   };
 
   addFilter = event => {
@@ -87,4 +106,4 @@ export class App extends Component {
       </section>
     );
   }
-}
+}*/
