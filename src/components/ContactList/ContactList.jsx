@@ -1,26 +1,23 @@
 import PropTypes from 'prop-types';
 import css from './ContactList.module.css';
+import { useSelector } from 'react-redux';
+import { ContactListContent } from 'components/ContactListContent/ContactListContent/ContactListContent';
+import { getContacts, getFilter } from 'redux-slices/selectors';
 
-export const ContactList = ({ contacts, onClick }) => {
+export const ContactList = () => {
+  const contacts = useSelector(getContacts);
+  const contactsFilter = useSelector(getFilter);
+
+  const filteredContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(contactsFilter.toLowerCase())
+  );
+
+
   return (
     <div className={css.contacts}>
       <h2>Contacts</h2>
-
       {contacts.length > 0 ? (
-        <ul className={css.contacts__list}>
-          {contacts.map(({ id, name, number }) => (
-            <li className={css.contacts__item} key={id}>
-              <p className={css.contacts__name}>{name}</p>
-              <p className={css.contacts__number}> {number}</p>
-              <button
-                onClick={() => onClick(id)}
-                className={css.contacts__delete}
-              >
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
+        <ContactListContent contacts={filteredContacts} />
       ) : (
         <p> No contacts added to the list</p>
       )}
@@ -36,5 +33,4 @@ ContactList.propTypes = {
       number: PropTypes.string.isRequired,
     })
   ),
-  deleteContact: PropTypes.func,
 };

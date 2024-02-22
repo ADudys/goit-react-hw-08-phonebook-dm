@@ -1,33 +1,36 @@
-import React, { useState } from 'react';
+import React from 'react';
 import css from './ContactForm.module.css';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from 'redux-slices/contactSlice';
+import { getContacts } from 'redux-slices/selectors';
 
 const ContactForm = ({ onSubmit }) => {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-
-  function handleChange(e) {
-    const { name, value } = e.currentTarget;
-    switch (name) {
-      case 'name':
-        setName(value);
-        break;
-      case 'number':
-        setNumber(value);
-        break;
-
-      default:
-        break;
-    }
-  }
+  const dispatch = useDispatch();
+  const contacts = useSelector(getContacts);
 
   function handleSubmit(e) {
     e.preventDefault();
-    const contact = { name: name, number: number };
+    const form = e.target;
+    const contact = {
+      name: form.name.value,
+      number: form.number.value,
+    };
+    const loweredName = form.name.value.toLowerCase().trim();
 
-    onSubmit(contact);
-    setName('');
-    setNumber('');
+    if (
+      contacts.some(
+        contact => contact.name.toLowerCase().trim() === loweredName
+      )
+    ) {
+      return alert(`${contact.name} is already in Your contacts!`);
+    }
+    if (contacts.some(contact => contact.number === form.number.value)) {
+      return alert(`${contact.number} is already in Your contacts!`);
+    } else {
+      dispatch(addContact(contact));
+    }
+    form.reset();
   }
 
   return (
@@ -39,21 +42,16 @@ const ContactForm = ({ onSubmit }) => {
           className={css.form__input}
           type="text"
           name="name"
-          value={name}
           placeholder="Enter name"
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          onChange={handleChange}
           required
         />
         <label className={css.form__label}>Number</label>
         <input
           type="tel"
-          value={number}
           name="number"
-          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+          placeholder="Enter phone number"
           className={css.form__input}
-          onChange={handleChange}
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
         />
@@ -73,53 +71,3 @@ ContactForm.propTypes = {
 };
 
 export default ContactForm;
-/*
-  handleSubmit = event => {
-    event.preventDefault();
-
-    const name = event.target.name.value;
-    const number = event.target.number.value;
-    const { addContact } = this.props;
-
-    addContact({ id: nanoid(), name, number });
-    event.target.reset();
-  };
-
-  render() {
-    return (
-      <section>
-        <h1 className={css.form__title}>Phonebook</h1>
-        <form className={css.form} onSubmit={this.handleSubmit}>
-          <label className={css.form__label}>Name</label>
-          <input
-            className={css.form__input}
-            type="text"
-            name="name"
-            placeholder='Enter name'
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            required
-          />
-          <label className={css.form__label}>Number</label>
-          <input
-            type="tel"
-            name="number"
-            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            className={css.from__number}
-            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-            required
-          />
-
-          <button className={css.form__btn} type="submit">
-            Add contact
-          </button>
-        </form>
-      </section>
-    );
-  }
-}
-ContactForm.propTypes = {
-  number: PropTypes.string,
-  name: PropTypes.string,
-  addContact: PropTypes.func.isRequired,
-} */
