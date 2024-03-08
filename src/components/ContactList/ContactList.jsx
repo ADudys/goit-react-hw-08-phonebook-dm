@@ -2,20 +2,17 @@ import PropTypes from 'prop-types';
 import css from './ContactList.module.css';
 import { useSelector } from 'react-redux';
 import { ContactListContent } from 'components/ContactListContent/ContactListContent/ContactListContent';
-import { getContacts, getFilter } from 'redux-slices/selectors';
+import { selectFilteredContacts, selectIsLoading } from 'store/selectors';
+import { Loader } from 'components/Loader/Loader';
 
 export const ContactList = () => {
-  const contacts = useSelector(getContacts);
-  const contactsFilter = useSelector(getFilter);
-
-  const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(contactsFilter.toLowerCase())
-  );
-
+  const contacts = useSelector(selectFilteredContacts);
+  const isLoading = useSelector(selectIsLoading);
 
   return (
     <div className={css.contacts}>
       <h2>Contacts</h2>
+      {!!isLoading && <Loader />}
       {contacts.length > 0 ? (
         <ContactListContent contacts={filteredContacts} />
       ) : (
