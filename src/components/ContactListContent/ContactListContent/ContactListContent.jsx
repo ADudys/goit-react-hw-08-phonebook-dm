@@ -1,12 +1,12 @@
 import { Filter } from 'components/Filter/Filter';
 import css from './ContactListContent.module.css';
 import { useDispatch } from 'react-redux';
-import { deleteContact } from 'redux-slices/contactSlice';
+import { deleteContact } from 'store/contactSlice';
 
-export const ContactListContent = contacts => {
+export const ContactListContent = (contacts) => {
   const dispatch = useDispatch();
-  const onClick = id => {
-    dispatch(deleteContact(id));
+  const onClick = () => {
+    dispatch(deleteContact(contact.id));
   };
 
   return (
