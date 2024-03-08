@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import css from './ContactList.module.css';
 import { useSelector } from 'react-redux';
-import { ContactListContent } from 'components/ContactListContent/ContactListContent/ContactListContent';
+import { ContactItemContent } from 'components/ContactItemContent/ContactItemContent';
 import { selectFilteredContacts, selectIsLoading } from 'store/selectors';
 import { Loader } from 'components/Loader/Loader';
+import { Filter } from 'components/Filter/Filter';
 
 export const ContactList = () => {
   const contacts = useSelector(selectFilteredContacts);
@@ -12,9 +13,20 @@ export const ContactList = () => {
   return (
     <div className={css.contacts}>
       <h2>Contacts</h2>
+
       {!!isLoading && <Loader />}
+
       {contacts.length > 0 ? (
-        <ContactListContent contacts={filteredContacts} />
+        contacts.map(contact => (
+          <div>
+            <Filter />
+            <ul>
+              <li key={contact.id}>
+                <ContactItemContent contact={contact} />
+              </li>
+            </ul>
+          </div>
+        ))
       ) : (
         <p> No contacts added to the list</p>
       )}
