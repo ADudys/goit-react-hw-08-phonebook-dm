@@ -21,6 +21,7 @@ export const addContact = createAsyncThunk(
   async ({ id, name, phone }, thunkAPI) => {
     try {
       const response = await axios.post('/contacts', { id, name, phone });
+      console.log(response.data);
       return response.data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e.message);

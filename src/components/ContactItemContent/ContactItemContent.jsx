@@ -11,7 +11,7 @@ export const ContactItemContent = ({ contact }) => {
   };
 
   return (
-    <div>
+    <div className={css.contacts__wrapper}>
       <p className={css.contacts__name}>{contact.name}</p>
       <p className={css.contacts__number}>{contact.phone}</p>
       <button type="button" onClick={onClick} className={css.contacts__delete}>

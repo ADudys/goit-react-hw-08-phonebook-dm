@@ -13,23 +13,19 @@ export const ContactList = () => {
   return (
     <div className={css.contacts}>
       <h2>Contacts</h2>
-
+      <Filter />
       {!!isLoading && <Loader />}
-
-      {contacts.length > 0 ? (
-        contacts.map(contact => (
-          <div>
-            <Filter />
-            <ul>
-              <li key={contact.id}>
-                <ContactItemContent contact={contact} />
-              </li>
-            </ul>
-          </div>
-        ))
-      ) : (
-        <p> No contacts added to the list</p>
-      )}
+      <ul className={css.contacts__list}>
+        {contacts.length > 0 ? (
+          contacts.map(contact => (
+            <li className={css.contacts__item} key={contact.id}>
+              <ContactItemContent contact={contact} />
+            </li>
+          ))
+        ) : (
+          <p> No contacts added to the list</p>
+        )}
+      </ul>
     </div>
   );
 };

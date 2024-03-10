@@ -1,8 +1,18 @@
-import { createSlice, nanoid } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { addContact, deleteContact, fetchContacts } from './operations';
 
 const handlePending = state => {
   state.isLoading = true;
+};
+const handleRejected = (state, action) => {
+  state.isLoading = false;
+  state.error = action.payload;
+};
+const isPendingAction = action => {
+  return action.type.endsWith('/pending');
+};
+const isRejectedAction = action => {
+  return action.type.endsWith('/rejected');
 };
 
 export const contactsSlice = createSlice({
@@ -32,9 +42,8 @@ export const contactsSlice = createSlice({
         );
         state.items.splice(index, 1);
       })
-      .addDefaultCase((state, action) => {
-        state.error = 'using old function, fix needed';
-      });
+      .addMatcher(isPendingAction, handlePending)
+      .addMatcher(isRejectedAction, handleRejected);
   },
 });
 
