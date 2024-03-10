@@ -1,26 +1,31 @@
 import PropTypes from 'prop-types';
 import css from './ContactList.module.css';
 import { useSelector } from 'react-redux';
-import { ContactListContent } from 'components/ContactListContent/ContactListContent/ContactListContent';
-import { getContacts, getFilter } from 'redux-slices/selectors';
+import { ContactItemContent } from 'components/ContactItemContent/ContactItemContent';
+import { selectFilteredContacts, selectIsLoading } from 'store/selectors';
+import { Loader } from 'components/Loader/Loader';
+import { Filter } from 'components/Filter/Filter';
 
 export const ContactList = () => {
-  const contacts = useSelector(getContacts);
-  const contactsFilter = useSelector(getFilter);
-
-  const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(contactsFilter.toLowerCase())
-  );
-
+  const contacts = useSelector(selectFilteredContacts);
+  const isLoading = useSelector(selectIsLoading);
 
   return (
     <div className={css.contacts}>
       <h2>Contacts</h2>
-      {contacts.length > 0 ? (
-        <ContactListContent contacts={filteredContacts} />
-      ) : (
-        <p> No contacts added to the list</p>
-      )}
+      <Filter />
+      {!!isLoading && <Loader />}
+      <ul className={css.contacts__list}>
+        {contacts.length > 0 ? (
+          contacts.map(contact => (
+            <li className={css.contacts__item} key={contact.id}>
+              <ContactItemContent contact={contact} />
+            </li>
+          ))
+        ) : (
+          <p> No contacts added to the list</p>
+        )}
+      </ul>
     </div>
   );
 };

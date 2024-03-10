@@ -2,19 +2,21 @@ import React from 'react';
 import css from './ContactForm.module.css';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux-slices/contactSlice';
-import { getContacts } from 'redux-slices/selectors';
+import { selectContacts } from 'store/selectors';
+import { addContact } from 'store/operations';
+import { nanoid } from '@reduxjs/toolkit';
 
-const ContactForm = ({ onSubmit }) => {
+const ContactForm = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
 
   function handleSubmit(e) {
     e.preventDefault();
     const form = e.target;
     const contact = {
+      id: nanoid(),
       name: form.name.value,
-      number: form.number.value,
+      phone: form.phone.value,
     };
     const loweredName = form.name.value.toLowerCase().trim();
 
@@ -25,8 +27,8 @@ const ContactForm = ({ onSubmit }) => {
     ) {
       return alert(`${contact.name} is already in Your contacts!`);
     }
-    if (contacts.some(contact => contact.number === form.number.value)) {
-      return alert(`${contact.number} is already in Your contacts!`);
+    if (contacts.some(contact => contact.phone === form.phone.value)) {
+      return alert(`${contact.phone} is already in Your contacts!`);
     } else {
       dispatch(addContact(contact));
     }
@@ -49,7 +51,7 @@ const ContactForm = ({ onSubmit }) => {
         <label className={css.form__label}>Number</label>
         <input
           type="tel"
-          name="number"
+          name="phone"
           placeholder="Enter phone number"
           className={css.form__input}
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
