@@ -16,7 +16,7 @@ const ContactForm = () => {
     const contact = {
       id: nanoid(),
       name: form.name.value,
-      phone: form.number.value,
+      phone: form.phone.value,
     };
     const loweredName = form.name.value.toLowerCase().trim();
 
@@ -27,8 +27,8 @@ const ContactForm = () => {
     ) {
       return alert(`${contact.name} is already in Your contacts!`);
     }
-    if (contacts.some(contact => contact.number === form.number.value)) {
-      return alert(`${contact.number} is already in Your contacts!`);
+    if (contacts.some(contact => contact.phone === form.phone.value)) {
+      return alert(`${contact.phone} is already in Your contacts!`);
     } else {
       dispatch(addContact(contact));
     }
