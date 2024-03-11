@@ -1,4 +1,4 @@
-import { deleteContact } from 'store/operations';
+import { deleteContact } from 'store/contacts/operations';
 import css from './ContactItemContent.module.css';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';

@@ -3,11 +3,10 @@ import { ContactList } from './ContactList/ContactList';
 import css from './App.module.css';
 import ContactForm from './ContactForm/ConstactForm';
 import { useDispatch } from 'react-redux';
-import { fetchContacts } from 'store/operations';
+import { fetchContacts } from 'store/contacts/operations';
 
 const App = () => {
   const dispatch = useDispatch();
-
 
   useEffect(() => {
     dispatch(fetchContacts());
