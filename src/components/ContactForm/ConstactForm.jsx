@@ -2,9 +2,10 @@ import React from 'react';
 import css from './ContactForm.module.css';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectContacts } from 'store/selectors';
-import { addContact } from 'store/operations';
+
+import { addContact } from 'store/contacts/operations';
 import { nanoid } from '@reduxjs/toolkit';
+import { selectContacts } from 'store/contacts/selectors';
 
 const ContactForm = () => {
   const dispatch = useDispatch();
