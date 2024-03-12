@@ -1,5 +1,5 @@
-const { createSlice } = require('@reduxjs/toolkit');
-const { register, logOut, refreshUser, logIn } = require('./operations');
+import { createSlice } from '@reduxjs/toolkit';
+import { logIn, logOut, refreshUser, register } from './operations';
 
 const initialState = {
   user: { name: null, email: null },
@@ -11,8 +11,7 @@ const initialState = {
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-
-  extraReducers: builder => {
+  extraReducers: builder =>
     builder
       .addCase(register.fulfilled, (state, action) => {
         state.user = action.payload.user;
@@ -20,7 +19,7 @@ const authSlice = createSlice({
         state.isLoggedIn = true;
       })
       .addCase(register.rejected, () => {
-        return alert("Registration failed");
+        alert('Registration failed');
       })
       .addCase(logIn.fulfilled, (state, action) => {
         state.user = action.payload.user;
@@ -28,7 +27,7 @@ const authSlice = createSlice({
         state.isLoggedIn = true;
       })
       .addCase(logIn.rejected, () => {
-        return alert('Incorect email or password');
+        alert('Incorect email or password');
       })
       .addCase(logOut.fulfilled, state => {
         state.user = { name: null, email: null };
@@ -45,9 +44,8 @@ const authSlice = createSlice({
       })
       .addCase(refreshUser.rejected, state => {
         state.isRefreshing = false;
-      })
-      .addDefaultCase(state => (state.error = 'Error'));
-  },
+      }),
+  // .addDefaultCase(state => (state.error = 'Error'));
 });
 
 export const authReducer = authSlice.reducer;

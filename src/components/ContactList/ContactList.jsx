@@ -14,7 +14,6 @@ export const ContactList = () => {
   return (
     <div className={css.contacts}>
       <h2>Contacts</h2>
-      <Filter />
       {!!isLoading && <Loader />}
       <ul className={css.contacts__list}>
         {contacts.length > 0 ? (
