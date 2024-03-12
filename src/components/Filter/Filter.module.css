@@ -1,12 +1,9 @@
 .filter {
-  margin-right: auto;
-  margin-left: auto;
-  margin-bottom: 20px;
+  margin: 20px auto;
   display: flex;
 }
 .filter__input {
-  margin-left: auto;
-  margin-right: auto;
+  margin: 20px auto;
   border-radius: 5px;
   border: 2px rgba(172, 162, 162, 0.892);
 }

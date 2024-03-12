@@ -9,10 +9,7 @@
 
   margin-top: 10px;
 }
-.form__input {
-  border-radius: 5px;
-  border: 2px rgba(172, 162, 162, 0.892);
-}
+
 .form__title {
   text-align: center;
   margin-top: 60px;

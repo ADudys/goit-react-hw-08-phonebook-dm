@@ -2,9 +2,12 @@ import React from 'react';
 import css from './ContactForm.module.css';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectContacts } from 'store/selectors';
-import { addContact } from 'store/operations';
+
 import { nanoid } from '@reduxjs/toolkit';
+import { selectContacts } from 'store/contacts/selectors';
+import { addContact } from 'store/contacts/operations';
+import Button from 'style/Button';
+import Input from 'style/Input';
 
 const ContactForm = () => {
   const dispatch = useDispatch();
@@ -16,7 +19,7 @@ const ContactForm = () => {
     const contact = {
       id: nanoid(),
       name: form.name.value,
-      phone: form.phone.value,
+      number: form.number.value,
     };
     const loweredName = form.name.value.toLowerCase().trim();
 
@@ -27,8 +30,8 @@ const ContactForm = () => {
     ) {
       return alert(`${contact.name} is already in Your contacts!`);
     }
-    if (contacts.some(contact => contact.phone === form.phone.value)) {
-      return alert(`${contact.phone} is already in Your contacts!`);
+    if (contacts.some(contact => contact.number === form.number.value)) {
+      return alert(`${contact.number} is already in Your contacts!`);
     } else {
       dispatch(addContact(contact));
     }
@@ -40,7 +43,7 @@ const ContactForm = () => {
       <h1 className={css.form__title}>Phonebook</h1>
       <form className={css.form} onSubmit={handleSubmit}>
         <label className={css.form__label}>Name</label>
-        <input
+        <Input
           className={css.form__input}
           type="text"
           name="name"
@@ -49,18 +52,17 @@ const ContactForm = () => {
           required
         />
         <label className={css.form__label}>Number</label>
-        <input
+        <Input
           type="tel"
-          name="phone"
+          name="number"
           placeholder="Enter phone number"
-          className={css.form__input}
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
         />
 
-        <button className={css.form__btn} type="submit">
+        <Button className={css.form__btn} type="submit">
           Add contact
-        </button>
+        </Button>
       </form>
     </section>
   );
