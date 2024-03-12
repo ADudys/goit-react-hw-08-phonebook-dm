@@ -1,0 +1,26 @@
+.nav__wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.link {
+  text-decoration: none;
+  display: flex;
+  justify-content: end;
+  margin: 15px 0;
+  font-weight: 600;
+  font-size: 16px;
+  text-decoration: none;
+  color: darkcyan;
+  transition-property: color;
+  transition-duration: 400ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.link.isActive {
+  color: darkgreen;
+}
+.link:hover,
+.link:focus {
+  color: darkgreen;
+}
